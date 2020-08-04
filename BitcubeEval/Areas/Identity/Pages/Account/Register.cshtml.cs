@@ -52,6 +52,13 @@ namespace BitcubeEval.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(50, MinimumLength = 2)]
+            [RegularExpression(@"^[A-Z]+[a-zA-Z]*$", ErrorMessage = "The username must start with an uppercase and have alphabetical letters only")]
+            [Display(Name = "UserName")]
+            public string UserName { get; set; }
+
+
+            [Required]
+            [StringLength(50, MinimumLength = 2)]
             [RegularExpression(@"^[A-Z]+[a-zA-Z]*$", ErrorMessage = "The firstname must start with an uppercase and have alphabetical letters only")]
             [Display(Name = "FirstName")]
             public string FirstName { get; set; }
@@ -66,7 +73,7 @@ namespace BitcubeEval.Areas.Identity.Pages.Account
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
-            [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$", ErrorMessage = "The password must six characters long and include " +
+            [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?+.!@$%^&*-]).{6,}$", ErrorMessage = "The password must six characters long and include " +
                 "at least one Uppercase, one lowercase, one number and one special character")]
             public string Password { get; set; }
 
@@ -90,7 +97,7 @@ namespace BitcubeEval.Areas.Identity.Pages.Account
             {
                 var user = new IdentityUser
                 {
-                    UserName = Input.FirstName,
+                    UserName = Input.UserName,
                     NormalizedUserName = Input.FirstName + " " + Input.LastName,
                     Email = Input.Email
                 };
