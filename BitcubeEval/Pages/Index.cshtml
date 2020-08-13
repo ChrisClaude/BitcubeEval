@@ -6,14 +6,11 @@
 }
 
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using Areas.Identity.Data 
+@inject SignInManager<BitcubeUser> SignInManager
 
 
 <div class="text-center">
     <h1 class="display-4">Welcome to Bitcube</h1>
-    @if (SignInManager.IsSignedIn(User))
-    {
         <p>You are now logged in as @User.Identity.Name.</p>
-    }
 </div>

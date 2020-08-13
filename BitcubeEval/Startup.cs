@@ -12,6 +12,7 @@ using BitcubeEval.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BitcubeEval.Areas.Identity.Data;
 
 namespace BitcubeEval
 {
@@ -27,11 +28,11 @@ namespace BitcubeEval
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<BitcubeContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("BitcubeEvalConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<BitcubeUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<BitcubeContext>();
 
             services.AddRazorPages();
         }

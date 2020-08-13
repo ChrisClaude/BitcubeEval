@@ -5,6 +5,56 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+@using Areas.Identity.Data;
+@inject UserManager<BitcubeUser> UserManager
+
 <h1>Friends</h1>
-<p>This is the friends page</p>
+@if (Model.Friends.Count() > 0)
+{
+    <div>My Friends</div>
+    foreach (var friend in Model.Friends)
+    {
+
+<div>
+    <span>@friend.UserName</span>
+    @if (!friend.Confirmed)
+    {
+        if (friend.UserId == @UserManager.GetUserId(User))
+        {
+            <span asp-page-handler="update" class="btn btn-warning">Requested</span>
+
+        }
+        else if (friend.FriendId == @UserManager.GetUserId(User))
+        {
+            <form method="post">
+                <input type="hidden" value="@friend.UserId" name="confirmFriendUserId" />
+                <input type="hidden" value="@UserManager.GetUserId(User)" name="currentUserId" />
+                <button type="submit" asp-page-handler="update" class="btn btn-success">Confirm Connection</button>
+            </form>
+        }
+
+    }
+</div>
+
+    }
+}
+else
+{
+    <div>You have no friends yet! Please consider connecting with other users.</div>
+}
+
+<h2>Connect with friends</h2>
+@foreach (var user in Model.FriendsSuggestions)
+{
+    <div>
+        <span class="mr-2">@user.UserName</span>
+        <form method="post">
+            <input value="@user.UserId" name="bitcubeUserId" type="hidden" />
+            <input value="@UserManager.GetUserId(User)" name="currentUserId" type="hidden" />
+            <button type="submit" class="btn btn-primary">Send Friend Request</button>
+        </form>
+    </div>
+}
+
+<p>This is the friends page for @User.Identity.Name</p>
 
